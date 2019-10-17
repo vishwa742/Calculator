@@ -7,6 +7,9 @@ class KnownValues(unittest.TestCase):
         results=Calculator.addition(1,2)
         self.assertEqual(3, results)
 
+    def test_subtraction(self):
+        results=Calculator.subtraction(2,1)
+        self.assertEqual(1, results)
 
 if __name__== '__main__':
     unittest.main()
