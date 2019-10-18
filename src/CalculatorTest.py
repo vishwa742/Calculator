@@ -10,14 +10,14 @@ class KnownValues(unittest.TestCase):
         self.assertIsInstance(calculator, Calc)
 
     def test_addition(self):
-        self.assertEqual(calculator.add(2,2), 4)  # Using the object add from the class Calc
+        self.assertEqual(calculator.add(2,2), 4)
         self.assertEqual(calculator.result, 4)
 
+    def test_subtraction(self):
+        self.assertEqual(calculator.subtract(2,2), 0)  # Using the object add from the class Calc
+        self.assertEqual(calculator.result, 0)
 
 
-    #def test_subtraction(self):
-        #results=Calculator.subtraction(2,1)
-        #self.assertEqual(1, results)
 
     def test_results_property_calculator(self):
         calculator = Calc()
