@@ -1,5 +1,6 @@
 import unittest
 import Calculator
+from Calculator import Calc
 
 class KnownValues(unittest.TestCase):
     # Test addition ()
@@ -7,9 +8,18 @@ class KnownValues(unittest.TestCase):
         results=Calculator.addition(1,2)
         self.assertEqual(3, results)
 
-    def test_subtraction(self):
-        results=Calculator.subtraction(2,1)
-        self.assertEqual(1, results)
+    def test_instantiate_calculator(self):
+        calculator = Calc()
+        self.assertIsInstance(calculator, Calc)
+
+    def test_results_property_calculator(self):
+        calculator = Calc()
+        self.assertEqual(calculator.result, 4)
+
+
+    #def test_subtraction(self):
+        #results=Calculator.subtraction(2,1)
+        #self.assertEqual(1, results)
 
 if __name__== '__main__':
     unittest.main()
