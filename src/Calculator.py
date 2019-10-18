@@ -11,7 +11,7 @@ class Calc:
         pass
 
     def add(self, a, b):
-        c = a+b
-        return c
+        self.result = a+b
+        return addition(a,b)
 #def subtraction(a,b):
     #return a-b

@@ -7,15 +7,11 @@ calculator = Calc()
 class KnownValues(unittest.TestCase):
 
     def test_instantiate_calculator(self):
-        #calculator = Calc()
         self.assertIsInstance(calculator, Calc)
 
     def test_addition(self):
-        #calculator = Calc()
-        results=Calculator.addition(1,2)   # Calling the function from Calculator.py
-        self.assertEqual(3, results)
         self.assertEqual(calculator.add(2,2), 4)  # Using the object add from the class Calc
-
+        self.assertEqual(calculator.result, 4)
 
 
 
@@ -30,14 +26,4 @@ class KnownValues(unittest.TestCase):
 
 if __name__== '__main__':
     unittest.main()
-
-
-
-    #def test_add_method_calculator(self):
-        #calculator = Calc()
-        #self.assertEqual(calculator.add(2,2), 4)
-
-
-
-
 
