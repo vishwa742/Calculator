@@ -1,8 +1,15 @@
-import unittest
+import unittest, csv
 import Calculator
 from Calculator import Calc
 
 calculator = Calc()
+
+with open('unittestaddition.csv', 'r') as csv_add:
+    csv_reader = csv.reader(csv_add)
+
+    for line in csv_reader:
+        print(line)
+
 
 class KnownValues(unittest.TestCase):
 
