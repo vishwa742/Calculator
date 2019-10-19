@@ -17,11 +17,8 @@ class KnownValues(unittest.TestCase):
         self.assertEqual(calculator.subtract(2,2), 0)  # Using the object add from the class Calc
         self.assertEqual(calculator.result, 0)
 
-
-
     def test_results_property_calculator(self):
-        calculator = Calc()
-        self.assertEqual(calculator.result, 0)
+        self.assertEqual(calculator.result, 4)
 
 
 if __name__== '__main__':
