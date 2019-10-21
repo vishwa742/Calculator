@@ -10,6 +10,9 @@ def multiplication(a,b):
 def division(a,b):
     return float(a)/float(b)
 
+def squared(a):
+    return  a*a
+
 class Calc:
     result=0
 
@@ -30,4 +33,8 @@ class Calc:
 
     def divide(self, a, b):
         self.result = division(a,b)
+        return self.result
+
+    def square(self,a):
+        self.result = squared(a)
         return self.result
