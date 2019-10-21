@@ -61,6 +61,10 @@ class KnownValues(unittest.TestCase):
     def test_square_method(self):
         self.assertEqual(calculator.square(7), 49)
 
+    def test_root_method(self):
+        self.assertEqual(calculator.root(49), 7)
+
+        
     #def test_results_property_calculator(self):
         #self.assertEqual(calculator.result, 4)
 
