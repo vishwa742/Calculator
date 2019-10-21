@@ -54,6 +54,10 @@ class KnownValues(unittest.TestCase):
     def test_multiply_method(self):
         self.assertEqual(calculator.multiply(2,3), 6)
 
+
+    def test_divide_method(self):
+        self.assertEqual(calculator.divide(7,5), 1.4)
+
     #def test_results_property_calculator(self):
         #self.assertEqual(calculator.result, 4)
 
