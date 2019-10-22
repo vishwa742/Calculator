@@ -46,8 +46,18 @@ class KnownValues(unittest.TestCase):
             result = calculator.multiply(x,y)
             self.assertEqual(result, expect_result)
 
+
     def test_divide_method(self):
         self.assertEqual(calculator.divide(7,5), 1.4)
+
+    def test_divide_using_csv(self):             #Testing multiplication using csv file data
+        for row in list_divide:
+            x = row[0]
+            y = row[1]
+            expect_result = row[2]
+            result = calculator.divide(y,x)
+            new_result = round(result,9)
+            self.assertEqual(new_result, expect_result)
 
     def test_square_method(self):
         self.assertEqual(calculator.square(7), 49)
