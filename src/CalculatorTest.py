@@ -1,38 +1,42 @@
 import unittest, csv
-import Calculator
 from Calculator import Calc
 
 calculator = Calc()
 
-from var import list
-
+from var import *
 
 class KnownValues(unittest.TestCase):
 
     def test_instantiate_calculator(self):
         self.assertIsInstance(calculator, Calc)
 
+
     def test_add_method(self):
-        self.assertEqual(calculator.add(2,2), 4)
-        #self.assertEqual(calculator.result, 4)
+        self.assertEqual(calculator.add(2,2), 4)    #Testing addition using our data
 
-    def test_add_using_csv(self):
+    def test_add_using_csv(self):                   #Testing addition using csv file data
         calculator = Calc()
-        result_new =0
-        for row in list:
 
+        for row in list_add:
             x = row[0]
             y = row[1]
             expect_result = row[2]
-            result_new = calculator.add(x,y)
+            result = calculator.add(x,y)
+            self.assertEqual(result, expect_result)
 
-            self.assertEqual(result_new, expect_result)
 
+    def test_subtract_method(self):                #Testing subtraction using our data
+        self.assertEqual(calculator.subtract(2,2), 0)
 
-    def test_subtract_method(self):
-        self.assertEqual(calculator.subtract(2,2), 0)  # Using the object add from the class Calc
-        #self.assertEqual(calculator.result, 0)
+    def test_subtract_using_csv(self):             #Testing subtraction using csv file data
+        calculator = Calc()
 
+        for row in list_subtract:
+            x = row[0]
+            y = row[1]
+            expect_result = row[2]
+            result = calculator.subtract(x,y)
+            self.assertEqual(result, expect_result)
 
 
     def test_multiply_method(self):
