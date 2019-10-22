@@ -35,7 +35,7 @@ class KnownValues(unittest.TestCase):
             self.assertEqual(result, expect_result)
 
 
-    def test_multiply_method(self):
+    def test_multiply_method(self):                #Testing multiply using our data
         self.assertEqual(calculator.multiply(2,3), 6)
 
     def test_multiply_using_csv(self):             #Testing multiplication using csv file data
@@ -47,10 +47,10 @@ class KnownValues(unittest.TestCase):
             self.assertEqual(result, expect_result)
 
 
-    def test_divide_method(self):
+    def test_divide_method(self):                  #Testing divide using our data
         self.assertEqual(calculator.divide(7,5), 1.4)
 
-    def test_divide_using_csv(self):             #Testing multiplication using csv file data
+    def test_divide_using_csv(self):               #Testing multiplication using csv file data
         for row in list_divide:
             x = row[0]
             y = row[1]
@@ -59,8 +59,16 @@ class KnownValues(unittest.TestCase):
             new_result = round(result,9)
             self.assertEqual(new_result, expect_result)
 
-    def test_square_method(self):
+
+    def test_square_method(self):                 #Testing square using our data
         self.assertEqual(calculator.square(7), 49)
+
+    def test_square_using_csv(self):              #Testing square using csv file data
+        for row in list_square:
+            x = row[0]
+            expect_result = row[1]
+            result = calculator.square(x)
+            self.assertEqual(result, expect_result)
 
     def test_root_method(self):
         self.assertEqual(calculator.root(49), 7)
