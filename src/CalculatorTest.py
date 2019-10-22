@@ -23,6 +23,7 @@ class KnownValues(unittest.TestCase):
             self.assertEqual(result, expect_result)
 
 
+
     def test_subtract_method(self):                #Testing subtraction using our data
         self.assertEqual(calculator.subtract(2,2), 0)
 
@@ -35,6 +36,7 @@ class KnownValues(unittest.TestCase):
             self.assertEqual(result, expect_result)
 
 
+
     def test_multiply_method(self):                #Testing multiply using our data
         self.assertEqual(calculator.multiply(2,3), 6)
 
@@ -45,6 +47,7 @@ class KnownValues(unittest.TestCase):
             expect_result = row[2]
             result = calculator.multiply(x,y)
             self.assertEqual(result, expect_result)
+
 
 
     def test_divide_method(self):                  #Testing divide using our data
@@ -60,6 +63,7 @@ class KnownValues(unittest.TestCase):
             self.assertEqual(new_result, expect_result)
 
 
+
     def test_square_method(self):                 #Testing square using our data
         self.assertEqual(calculator.square(7), 49)
 
@@ -70,12 +74,23 @@ class KnownValues(unittest.TestCase):
             result = calculator.square(x)
             self.assertEqual(result, expect_result)
 
-    def test_root_method(self):
+
+
+    def test_root_method(self):                 #Testing root using our data
         self.assertEqual(calculator.root(49), 7)
+
+    def test_root_using_csv(self):              #Testing root using csv file data
+        for row in list_root:
+            x = row[0]
+            expect_result = row[1]
+            expect_result = round(expect_result, 8)
+            result = calculator.root(x)
+            new_result = round(result, 8)
+            self.assertEqual(new_result, expect_result)
 
 
     #def test_results_property_calculator(self):
-        #self.assertEqual(calculator.result, 4)
+        #self.assertEqual(calculator.result, 0)
 
 if __name__== '__main__':
     unittest.main()
