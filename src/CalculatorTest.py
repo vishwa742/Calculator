@@ -15,8 +15,6 @@ class KnownValues(unittest.TestCase):
         self.assertEqual(calculator.add(2,2), 4)    #Testing addition using our data
 
     def test_add_using_csv(self):                   #Testing addition using csv file data
-        calculator = Calc()
-
         for row in list_add:
             x = row[0]
             y = row[1]
@@ -29,8 +27,6 @@ class KnownValues(unittest.TestCase):
         self.assertEqual(calculator.subtract(2,2), 0)
 
     def test_subtract_using_csv(self):             #Testing subtraction using csv file data
-        calculator = Calc()
-
         for row in list_subtract:
             x = row[0]
             y = row[1]
@@ -42,6 +38,13 @@ class KnownValues(unittest.TestCase):
     def test_multiply_method(self):
         self.assertEqual(calculator.multiply(2,3), 6)
 
+    def test_multiply_using_csv(self):             #Testing multiplication using csv file data
+        for row in list_multiply:
+            x = row[0]
+            y = row[1]
+            expect_result = row[2]
+            result = calculator.multiply(x,y)
+            self.assertEqual(result, expect_result)
 
     def test_divide_method(self):
         self.assertEqual(calculator.divide(7,5), 1.4)
