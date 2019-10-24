@@ -1,9 +1,8 @@
 import unittest, csv
 from Calculator import Calc
-
+from csvreader import CsvReader
 calculator = Calc()
 
-from var import *
 
 class KnownValues(unittest.TestCase):
 
@@ -11,86 +10,16 @@ class KnownValues(unittest.TestCase):
         self.assertIsInstance(calculator, Calc)
 
 
-    def test_add_method(self):
-        self.assertEqual(calculator.add(2,2), 4)    #Testing addition using our data
-
-    def test_add_using_csv(self):                   #Testing addition using csv file data
-        for row in list_add:
-            x = row[0]
-            y = row[1]
-            expect_result = row[2]
+    def test_add_using_csv(self):
+        testData= CsvReader('src/csvaddition.csv').data
+        for row in testData:
+            x = int(row['Value 1'])
+            y = int(row['Value 2'])
+            expect_result = int(row['Result'])
             result = calculator.add(x,y)
             self.assertEqual(result, expect_result)
 
 
-
-    def test_subtract_method(self):                #Testing subtraction using our data
-        self.assertEqual(calculator.subtract(2,2), 0)
-
-    def test_subtract_using_csv(self):             #Testing subtraction using csv file data
-        for row in list_subtract:
-            x = row[0]
-            y = row[1]
-            expect_result = row[2]
-            result = calculator.subtract(x,y)
-            self.assertEqual(result, expect_result)
-
-
-
-    def test_multiply_method(self):                #Testing multiply using our data
-        self.assertEqual(calculator.multiply(2,3), 6)
-
-    def test_multiply_using_csv(self):             #Testing multiplication using csv file data
-        for row in list_multiply:
-            x = row[0]
-            y = row[1]
-            expect_result = row[2]
-            result = calculator.multiply(x,y)
-            self.assertEqual(result, expect_result)
-
-
-
-    def test_divide_method(self):                  #Testing divide using our data
-        self.assertEqual(calculator.divide(7,5), 1.4)
-
-    def test_divide_using_csv(self):               #Testing multiplication using csv file data
-        for row in list_divide:
-            x = row[0]
-            y = row[1]
-            expect_result = row[2]
-            result = calculator.divide(y,x)
-            new_result = round(result,9)
-            self.assertEqual(new_result, expect_result)
-
-
-
-    def test_square_method(self):                 #Testing square using our data
-        self.assertEqual(calculator.square(7), 49)
-
-    def test_square_using_csv(self):              #Testing square using csv file data
-        for row in list_square:
-            x = row[0]
-            expect_result = row[1]
-            result = calculator.square(x)
-            self.assertEqual(result, expect_result)
-
-
-
-    def test_root_method(self):                 #Testing root using our data
-        self.assertEqual(calculator.root(49), 7)
-
-    def test_root_using_csv(self):              #Testing root using csv file data
-        for row in list_root:
-            x = row[0]
-            expect_result = row[1]
-            expect_result = round(expect_result, 8)
-            result = calculator.root(x)
-            new_result = round(result, 8)
-            self.assertEqual(new_result, expect_result)
-
-
-    #def test_results_property_calculator(self):
-        #self.assertEqual(calculator.result, 0)
 
 if __name__== '__main__':
     unittest.main()

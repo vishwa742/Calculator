@@ -19,7 +19,7 @@ def squareroot(a):
     return  math.sqrt(a)
 
 class Calc:
-    result=0
+    rest=0
 
     def __init__(self):
         pass
