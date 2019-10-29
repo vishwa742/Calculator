@@ -39,7 +39,11 @@ class KnownValues(unittest.TestCase):
         for row in test_file:
             self.assertEqual(calculator.square(int(row['Value 1'])), int(row['Result']))
 
-
+    def test_square_root_using_csv(self):
+        test_file= CsvReader('src/root.csv').data
+        for row in test_file:
+            result = round(calculator.root(int(row['Value 1'])),8)
+            self.assertEqual(result, round(float(row['Result']),8))
 if __name__== '__main__':
     unittest.main()
 
