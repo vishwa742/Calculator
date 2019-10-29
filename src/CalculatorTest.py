@@ -33,6 +33,13 @@ class KnownValues(unittest.TestCase):
         for row in test_file:
             result = round(calculator.divide(int(row['Value 2']),int(row['Value 1'])),7)
             self.assertEqual(result, round(float(row['Result']),7))
+
+    def test_square_using_csv(self):
+        test_file= CsvReader('src/square.csv').data
+        for row in test_file:
+            self.assertEqual(calculator.square(int(row['Value 1'])), int(row['Result']))
+
+
 if __name__== '__main__':
     unittest.main()
 
