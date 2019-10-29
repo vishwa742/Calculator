@@ -13,23 +13,19 @@ class KnownValues(unittest.TestCase):
     def test_add_using_csv(self):
         test_file= CsvReader('src/csvaddition.csv').data
         for row in test_file:
-            x = int(row['Value 1'])
-            y = int(row['Value 2'])
-            expect_result = int(row['Result'])
-            result_final = calculator.add(x,y)
-            self.assertEqual(result_final, expect_result)
+            self.assertEqual(calculator.add(int(row['Value 1']),int(row['Value 2'])), int(row['Result']))
 
 
     def test_sub_using_csv(self):
         test_file= CsvReader('src/subtraction.csv').data
         for row in test_file:
-            x = int(row['Value 1'])
-            y = int(row['Value 2'])
-            expect_result = int(row['Result'])
-            result_final = calculator.subtract(x,y)
-            self.assertEqual(result_final, expect_result)
+            self.assertEqual(calculator.subtract(int(row['Value 1']),int(row['Value 2'])), int(row['Result']))
 
 
+    def test_multiply_using_csv(self):
+        test_file= CsvReader('src/multiplication.csv').data
+        for row in test_file:
+            self.assertEqual(calculator.multiply(int(row['Value 1']),int(row['Value 2'])), int(row['Result']))
 if __name__== '__main__':
     unittest.main()
 
