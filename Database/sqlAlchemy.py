@@ -10,3 +10,14 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 Base = declarative_base()
+
+class Customer(Base):
+    __tablename__ = 'Customer'
+
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String)
+    last_name = Column(String)
+    username = Column(String)
+    email = Column(String)
+    address = Column(String)
+    town = Column(String)
