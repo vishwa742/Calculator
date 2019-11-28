@@ -32,6 +32,13 @@ class Item(Base):
     selling_price = Column(Numeric(10, 2), nullable=False)
     quantity = Column(Integer(), nullable=False)
 
+class Order(Base):
+    __tablename__ = 'orders'
+    id = Column(Integer(), primary_key=True)
+    customer_id = Column(Integer(), ForeignKey('customers.id'))
+    date_placed = Column(DateTime(), default=datetime.now, nullable=False)
+    date_shipped = Column(DateTime())
+
 
 Base.metadata.create_all(engine)
 
