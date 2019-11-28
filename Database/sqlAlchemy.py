@@ -213,3 +213,59 @@ session.query(Customer).filter(and_(
         Customer.town == 'Peterbrugh',
     )
 )).all()
+
+session.query(Order).filter(Order.date_shipped == None).all()
+session.query(Order).filter(Order.date_shipped != None).all()
+session.query(Customer).filter(Customer.first_name.in_(['Toby', 'Sarah'])).all()
+session.query(Customer).filter(Customer.first_name.notin_(['Toby', 'Sarah'])).all()
+session.query(Item).filter(Item.cost_price.between(10, 50)).all()
+session.query(Item).filter(not_(Item.cost_price.between(10, 50))).all()
+session.query(Item).filter(Item.name.like("%r")).all()
+session.query(Item).filter(Item.name.ilike("w%")).all()
+session.query(Item).filter(not_(Item.name.like("W%"))).all()
+session.query(Customer).limit(2).all()
+session.query(Customer).filter(Customer.address.ilike("%avenue")).limit(2).all()
+
+# find the number of customers lives in each town
+
+session.query(
+    func.count("*").label('town_count'),
+    Customer.town
+).group_by(Customer.town).having(func.count("*") > 2).all()
+
+session.query(Customer.town).filter(Customer.id < 10).all()
+session.query(Customer.town).filter(Customer.id < 10).distinct().all()
+
+session.query(
+    func.count(distinct(Customer.town)),
+    func.count(Customer.town)
+).all()
+
+s1 = session.query(Item.id, Item.name).filter(Item.name.like("Wa%"))
+s2 = session.query(Item.id, Item.name).filter(Item.name.like("%e%"))
+s1.union(s2).all()
+
+s1.union_all(s2).all()
+
+i = session.query(Item).get(8)
+i.selling_price = 25.91
+session.add(i)
+session.commit()
+
+# update quantity of all quantity of items to 60 whose name starts with 'W'
+
+session.query(Item).filter(
+    Item.name.ilike("W%")
+).update({"quantity": 60}, synchronize_session='fetch')
+session.commit()
+
+session.query(Customer).filter(text("first_name = 'John'")).all()
+
+session.query(Customer).filter(text("town like 'Nor%'")).all()
+
+session.query(Customer).filter(text("town like 'Nor%'")).order_by(text("first_name, id desc")).all()
+
+session.commit()
+
+dispatch_order(1)
+dispatch_order(2)
