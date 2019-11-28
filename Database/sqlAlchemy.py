@@ -6,9 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 engine = create_engine('sqlite:////web/Sqlite-Data/example.db')
 
-Session = sessionmaker(bind=engine)
-session = Session()
-
 Base = declarative_base()
 
 
@@ -49,7 +46,35 @@ class OrderLine(Base):
     item = relationship("Item")
 
 
+def dispatch_order(order_id):
+    # check whether order_id is valid or not
+    order = session.query(Order).get(order_id)
+
+    if not order:
+        raise ValueError("Invalid order id: {}.".format(order_id))
+
+    if order.date_shipped:
+        print("Order already shipped.")
+        return
+
+    try:
+        for i in order.order_lines:
+            i.item.quantity = i.item.quantity - i.quantity
+
+        order.date_shipped = datetime.now()
+        session.commit()
+        print("Transaction completed.")
+
+    except IntegrityError as e:
+        print(e)
+        print("Rolling back ...")
+        session.rollback()
+        print("Transaction failed.")
+
 Base.metadata.create_all(engine)
+
+Session = sessionmaker(bind=engine)
+session = Session()
 
 
 c1 = Customer(first_name='Toby',
