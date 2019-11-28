@@ -181,3 +181,35 @@ for ol in c1.orders[1].order_lines:
 
 session.query(Item).filter(Item.name.ilike("wa%")).all()
 session.query(Item).filter(Item.name.ilike("wa%")).order_by(Item.cost_price).all()
+
+# descending order
+session.query(Item).filter(Item.name.ilike("wa%")).order_by(desc(Item.cost_price)).all()
+
+session.query(Customer).join(Order).all()
+
+# print(session.query(Customer).join(Order))
+
+session.query(Customer.id, Customer.username, Order.id).join(Order).all()
+
+# find all customers who either live in Peterbrugh or Norfolk
+
+session.query(Customer).filter(or_(
+    Customer.town == 'Peterbrugh',
+    Customer.town == 'Norfolk'
+)).all()
+
+# find all customers whose first name is John and live in Norfolk
+
+session.query(Customer).filter(and_(
+    Customer.first_name == 'John',
+    Customer.town == 'Norfolk'
+)).all()
+
+# find all johns who don't live in Peterbrugh
+
+session.query(Customer).filter(and_(
+    Customer.first_name == 'John',
+    not_(
+        Customer.town == 'Peterbrugh',
+    )
+)).all()
