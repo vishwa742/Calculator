@@ -39,6 +39,15 @@ class Order(Base):
     date_placed = Column(DateTime(), default=datetime.now, nullable=False)
     date_shipped = Column(DateTime())
 
+class OrderLine(Base):
+    __tablename__ = 'order_lines'
+    id = Column(Integer(), primary_key=True)
+    order_id = Column(Integer(), ForeignKey('orders.id'))
+    item_id = Column(Integer(), ForeignKey('items.id'))
+    quantity = Column(Integer())
+    order = relationship("Order", backref='order_lines')
+    item = relationship("Item")
+
 
 Base.metadata.create_all(engine)
 
@@ -111,4 +120,28 @@ i7 = Item(name='Watch', cost_price=100.58, selling_price=104.41, quantity=50)
 i8 = Item(name='Water Bottle', cost_price=20.89, selling_price=25, quantity=50)
 
 session.add_all([i1, i2, i3, i4, i5, i6, i7, i8])
+session.commit()
+
+o1 = Order(customer=c1)
+o2 = Order(customer=c1)
+
+line_item1 = OrderLine(order=o1, item=i1, quantity=3)
+line_item2 = OrderLine(order=o1, item=i2, quantity=2)
+line_item3 = OrderLine(order=o2, item=i1, quantity=1)
+line_item3 = OrderLine(order=o2, item=i2, quantity=4)
+
+session.add_all([o1, o2])
+
+session.new
+session.commit()
+
+o3 = Order(customer=c1)
+orderline1 = OrderLine(item=i1, quantity=5)
+orderline2 = OrderLine(item=i2, quantity=10)
+
+o3.order_lines.append(orderline1)
+o3.order_lines.append(orderline2)
+
+session.add_all([o3])
+
 session.commit()
