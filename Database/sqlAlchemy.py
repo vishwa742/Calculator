@@ -1,8 +1,11 @@
 from sqlalchemy import Column, Integer, String, Numeric, ForeignKey
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session, relationship
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import desc, func, cast, Date, distinct, union, DateTime, text, join, update
+from sqlalchemy import or_, and_, not_
+from datetime import datetime
+from sqlalchemy.exc import IntegrityError
 
 engine = create_engine('sqlite:////web/Sqlite-Data/example.db')
 
@@ -10,15 +13,18 @@ Base = declarative_base()
 
 
 class Customer(Base):
-    __tablename__ = 'Customer'
+    __tablename__ = 'customers'
 
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    last_name = Column(String)
-    username = Column(String)
-    email = Column(String)
-    address = Column(String)
-    town = Column(String)
+    id = Column(Integer(), primary_key=True)
+    first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100), nullable=False)
+    username = Column(String(50), nullable=False)
+    email = Column(String(200), nullable=False)
+    address = Column(String(200), nullable=False)
+    town = Column(String(50), nullable=False)
+    created_on = Column(DateTime(), default=datetime.now)
+    updated_on = Column(DateTime(), default=datetime.now, onupdate=datetime.now)
+    orders = relationship("Order", backref='customer')
 
 
 class Item(Base):
@@ -76,7 +82,6 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-
 c1 = Customer(first_name='Toby',
               last_name='Miller',
               username='tmiller',
@@ -95,7 +100,7 @@ c2 = Customer(first_name='Scott',
 
 session.add(c1)
 session.add(c2)
-
+session.new
 session.commit()
 
 c3 = Customer(
