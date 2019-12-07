@@ -228,95 +228,97 @@ for i in output:
     print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
 #Null shipping date
-output =session.query(Order).filter(Order.date_shipped == None).all()
+output = session.query(Order).filter(Order.date_shipped == None).all()
 print("Find all orders with Null shipping date")
 for i in output:
     print("ID: ", row.id, " Date Placed:", row.date_placed, " Customer Id:", row.customer_id)
 
 #Not Null shipping date
-output =session.query(Order).filter(Order.date_shipped != None).all()
+output = session.query(Order).filter(Order.date_shipped != None).all()
 print("Find all orders with not Null shipping date")
 for i in output:
     print("ID: ", row.id, " Date Placed:", row.date_placed, " Customer Id:", row.customer_id)
 
 #Customers with first name as Toby or Sarah
-output =session.query(Customer).filter(Customer.first_name.in_(['Toby', 'Sarah'])).all()
+output = session.query(Customer).filter(Customer.first_name.in_(['Toby', 'Sarah'])).all()
 print("Find all Customers with first name as Toby or Sarah")
 for i in output:
     print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
 #Customers with first name not Toby or Sarah
-output =session.query(Customer).filter(Customer.first_name.notin_(['Toby', 'Sarah'])).all()
+output = session.query(Customer).filter(Customer.first_name.notin_(['Toby', 'Sarah'])).all()
 print("Find all Customers with first name not Toby or Sarah")
 for i in output:
     print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
 #Item cost price between 10 and 50
-output =session.query(Item).filter(Item.cost_price.between(10, 50)).all()
+output = session.query(Item).filter(Item.cost_price.between(10, 50)).all()
 print("Find all Item cost price between 10 and 50")
 for i in output:
     print("Name: ", row.name, " Cost Price:", row.cost_price, " Selling Price:", row.selling_price, " Quantity:",
           row.quantity)
 
 #Item cost price not between 10 and 50
-output =session.query(Item).filter(not_(Item.cost_price.between(10, 50))).all()
+output = session.query(Item).filter(not_(Item.cost_price.between(10, 50))).all()
 print("Find all Item cost price not between 10 and 50")
 for i in output:
     print("Name: ", row.name, " Cost Price:", row.cost_price, " Selling Price:", row.selling_price, " Quantity:",
           row.quantity)
 
 #Items that ends with a 'r'
-output =session.query(Item).filter(Item.name.like("%r")).all()
+output = session.query(Item).filter(Item.name.like("%r")).all()
 print("Items that ends with a 'r'")
 for i in output:
     print("Name: ", row.name, " Cost Price:", row.cost_price, " Selling Price:", row.selling_price, " Quantity:",
           row.quantity)
 
 #Items that begin with a 'w'
-output =session.query(Item).filter(Item.name.ilike("w%")).all()
+output = session.query(Item).filter(Item.name.ilike("w%")).all()
 print("Items that begin  with a 'q'")
 for i in output:
     print("Name: ", row.name, " Cost Price:", row.cost_price, " Selling Price:", row.selling_price, " Quantity:",
           row.quantity)
 
 #Items that begin with a 'W'
-output =session.query(Item).filter(not_(Item.name.like("W%"))).all()
+output = session.query(Item).filter(not_(Item.name.like("W%"))).all()
 print("Items that begin with a 'W'")
 for i in output:
     print("Name: ", row.name, " Cost Price:", row.cost_price, " Selling Price:", row.selling_price, " Quantity:",
           row.quantity)
 
 #Print customer details but limit is 2
-output =session.query(Customer).limit(2).all()
+output = session.query(Customer).limit(2).all()
 print("Print customer details but limit is 2")
 for i in output:
     print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
 #Print customer details where adress begins with avenue but only 2 entries
-output =session.query(Customer).filter(Customer.address.ilike("%avenue")).limit(2).all()
-print("Print customer details where adress begins with avenue but only 2 entries)
+output = session.query(Customer).filter(Customer.address.ilike("%avenue")).limit(2).all()
+print("Print customer details where adress begins with avenue but only 2 entries")
 for i in output:
     print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
 # find the number of customers lives in each town
-session.query(
-    func.count("*").label('town_count'),
-    Customer.town
-).group_by(Customer.town).having(func.count("*") > 2).all()
+output = session.query(func.count("*").label('town_count'),Customer.town).group_by(Customer.town).having(func.count("*") > 2).all()
+print("Print the number of customers lives in each town")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
-session.query(Customer.town).filter(Customer.id < 10).all()
-session.query(Customer.town).filter(Customer.id < 10).distinct().all()
+# find the towns with less than 10 customer_ids
+output = session.query(Customer.town).filter(Customer.id < 10).all()
+print("Print the towns with less than 10 customer_ids")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
-session.query(
-    func.count(distinct(Customer.town)),
-    func.count(Customer.town)
-).all()
-
+session.query(func.count(distinct(Customer.town)),func.count(Customer.town)).all()
+#S1 : filter names that begin with Wa || S2: filter names that have an e
 s1 = session.query(Item.id, Item.name).filter(Item.name.like("Wa%"))
 s2 = session.query(Item.id, Item.name).filter(Item.name.like("%e%"))
 s1.union(s2).all()
+#Find names that have both S1 and S2
+print("Union query")
+print (s1.union(s2).all())
 
-s1.union_all(s2).all()
 
 i = session.query(Item).get(8)
 i.selling_price = 25.91
@@ -324,18 +326,27 @@ session.add(i)
 session.commit()
 
 # update quantity of all quantity of items to 60 whose name starts with 'W'
-
-session.query(Item).filter(
-    Item.name.ilike("W%")
-).update({"quantity": 60}, synchronize_session='fetch')
+output = session.query(Item).filter(Item.name.ilike("W%")).update({"quantity": 60}, synchronize_session='fetch')
+print(output)
 session.commit()
 
-session.query(Customer).filter(text("first_name = 'John'")).all()
+#Customers with first name John
+output = session.query(Customer).filter(text("first_name = 'John'")).all()
+print("Find all Customers with first name John")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
+#Customers with town starting with Nor
 session.query(Customer).filter(text("town like 'Nor%'")).all()
+print("Find all Customers with town starting with Nor")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
+#Customers with town starting with Nor ordered by first name
 session.query(Customer).filter(text("town like 'Nor%'")).order_by(text("first_name, id desc")).all()
-
+print("Find all Customers with town starting with Nor ordered by first name")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 session.commit()
 
 dispatch_order(1)
