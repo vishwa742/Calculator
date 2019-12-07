@@ -35,12 +35,14 @@ class Item(Base):
     selling_price = Column(Numeric(10, 2), nullable=False)
     quantity = Column(Integer(), nullable=False)
 
+
 class Order(Base):
     __tablename__ = 'orders'
     id = Column(Integer(), primary_key=True)
     customer_id = Column(Integer(), ForeignKey('customers.id'))
     date_placed = Column(DateTime(), default=datetime.now, nullable=False)
     date_shipped = Column(DateTime())
+
 
 class OrderLine(Base):
     __tablename__ = 'order_lines'
@@ -51,9 +53,8 @@ class OrderLine(Base):
     order = relationship("Order", backref='order_lines')
     item = relationship("Item")
 
-
+# function to check valid order_id
 def dispatch_order(order_id):
-    # check whether order_id is valid or not
     order = session.query(Order).get(order_id)
 
     if not order:
@@ -76,6 +77,7 @@ def dispatch_order(order_id):
         print("Rolling back ...")
         session.rollback()
         print("Transaction failed.")
+
 
 Base.metadata.create_all(engine)
 
@@ -179,45 +181,52 @@ session.commit()
 for ol in c1.orders[0].order_lines:
     ol.id, ol.item, ol.quantity
 
-print('-------')
+#print('-------')
 
 for ol in c1.orders[1].order_lines:
     ol.id, ol.item, ol.quantity
 
-session.query(Item).filter(Item.name.ilike("wa%")).all()
-session.query(Item).filter(Item.name.ilike("wa%")).order_by(Item.cost_price).all()
+# Items that start with 'wa'
+output = session.query(Item).filter(Item.name.ilike("wa%")).all()
+print(" Items that start with wa :")
+for i in output:
+    print("Item Name: ", row.name, " Cost Price:", row.cost_price, " Selling Price:", row.selling_price, " Quantity:",
+          row.quantity)
 
-# descending order
-session.query(Item).filter(Item.name.ilike("wa%")).order_by(desc(Item.cost_price)).all()
+# Items that start with 'wa', sorted in descending order of price
+output = session.query(Item).filter(Item.name.ilike("wa%")).order_by(desc(Item.cost_price)).all()
+print(" Items that start with wa sorted in descending order of price:")
+for i in output:
+    print("Item Name: ", row.name, " Cost Price:", row.cost_price, " Selling Price:", row.selling_price, " Quantity:",
+          row.quantity)
 
-session.query(Customer).join(Order).all()
+#joining customer and order
+output = session.query(Customer).join(Order).all()
+print("joining customer and order:")
+for i in output:
+    print("Date of order",row.date_placed)
 
-# print(session.query(Customer).join(Order))
 
 session.query(Customer.id, Customer.username, Order.id).join(Order).all()
 
-# find all customers who either live in Peterbrugh or Norfolk
+# Find all customers who either live in Peterbrugh or Norfolk
+output = session.query(Customer).filter(or_(Customer.town == 'Peterbrugh', Customer.town == 'Norfolk')).all()
+print("Find all customers who either live in either Peterburgh or Norfolk")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
-session.query(Customer).filter(or_(
-    Customer.town == 'Peterbrugh',
-    Customer.town == 'Norfolk'
-)).all()
+# Find all customers whose first name is John and live in Norfolk
+output = session.query(Customer).filter(and_(Customer.first_name == 'John',Customer.town == 'Norfolk')).all()
+print("Find all customers whose first name is John and live in Norfolk")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
-# find all customers whose first name is John and live in Norfolk
+# Find all johns who don't live in Peterbrugh
+output = session.query(Customer).filter(and_(Customer.first_name == 'John',not_(Customer.town == 'Peterbrugh',))).all()
+print("Find all johns who don't live in Peterbrugh")
+for i in output:
+    print("Name: ", row.first_name, " ", row.last_name, " Address:", row.address, " Email:", row.email)
 
-session.query(Customer).filter(and_(
-    Customer.first_name == 'John',
-    Customer.town == 'Norfolk'
-)).all()
-
-# find all johns who don't live in Peterbrugh
-
-session.query(Customer).filter(and_(
-    Customer.first_name == 'John',
-    not_(
-        Customer.town == 'Peterbrugh',
-    )
-)).all()
 
 session.query(Order).filter(Order.date_shipped == None).all()
 session.query(Order).filter(Order.date_shipped != None).all()
